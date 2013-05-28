@@ -112,7 +112,43 @@ cap invoke COMMAND="apt-get -q -y install git" SUDO=1
 cap invoke COMMAND="apt-get -q -y install wget" SUDO=1
 ```
 
+#### VirtualBox 4.2
+Before installing VirtualBox on Ubuntu 12.04 TLS via `apt-get`, we need to update the source list of `apt-get`. So, first, create a local file `apt_sources.txt` at local directory with following contents:
+
+```text
+deb http://download.virtualbox.org/virtualbox/debian precise contrib
+deb http://download.virtualbox.org/virtualbox/debian oneiric contrib
+deb http://download.virtualbox.org/virtualbox/debian natty contrib
+deb http://download.virtualbox.org/virtualbox/debian maverick contrib non-free
+deb http://download.virtualbox.org/virtualbox/debian lucid contrib non-free
+deb http://download.virtualbox.org/virtualbox/debian karmic contrib non-free
+deb http://download.virtualbox.org/virtualbox/debian hardy contrib non-free
+deb http://download.virtualbox.org/virtualbox/debian wheezy contrib
+deb http://download.virtualbox.org/virtualbox/debian squeeze contrib non-free
+deb http://download.virtualbox.org/virtualbox/debian lenny contrib non-free
+```
+
+Then, upload the `apt_sources.txt` onto remote server:
+
+```bash
+scp apt_sources.txt smith@unode001.local:/home/smith/Downloads
+scp apt_sources.txt smith@unode002.local:/home/smith/Downloads
+scp apt_sources.txt smith@unode003.local:/home/smith/Downloads
+scp apt_sources.txt smith@unode004.local:/home/smith/Downloads
+```
+
+Then, start to install VirtualBox:
+
+```bash
+cap invoke COMMAND="cat Downloads/apt_sources.txt | sudo tee -a /etc/apt/sources.list"
+cap invoke COMMAND="wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -"
+cap invoke COMMAND="apt-get update" SUDO=1
+cap invoke COMMAND="apt-get -q -y install virtualbox-4.2" SUDO=1
+cap invoke COMMAND="apt-get -q -y install dkms" SUDO=1
+```
+
 ##### Vagrant
+First, install `vagrant` and `vagrant-berkshelf` plugin:
 
 ```bash
 cap invoke COMMAND="wget http://files.vagrantup.com/packages/7e400d00a3c5a0fdf2809c8b5001a035415a607b/vagrant_1.2.2_x86_64.deb"
@@ -120,10 +156,20 @@ cap invoke COMMAND="dkpg -i vagrant_1.2.2_x86_64.deb" SUDO=1
 cap invoke COMMAND="vagrant plugin install vagrant-berkshelf" SUDO=1
 ```
 
+Then, install `precise64` box with one trial configuration locally:
+
+```bash
+cap invoke COMMAND="cd Downloads; mkdir test;"
+cap invoke COMMAND="cd Downloads/test; vagrant init precise64 http://files.vagrantup.com/precise64.box"
+cap invoke COMMAND="cd Downloads/test; sudo vagrant up"
+cap invoke COMMAND="cd Downloads/test; sudo vagrant halt"
+cap invoke COMMAND="cd Downloads/test; sudo vagrant destroy -f"
+```
+
 
 
 
 ## References
 - [Using SSH Public Key Authentication](http://macnugget.org/projects/publickeys/)
-- ...
+- [VirtualBox installation for Debian-based Linux distributions](https://www.virtualbox.org/wiki/Linux_Downloads)
 
