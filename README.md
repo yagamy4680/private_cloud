@@ -37,7 +37,7 @@ sudo apt-get install vim
 Let's add `smith` into the `/etc/sudoers` without promot password. Please type `sudo vim /etc/sudoers`, and add following line into the sudoers file *at the end*:
 
 ```text
-smith ALL=(ALL) NOPASSWORD: ALL
+smith ALL=(ALL) NOPASSWD: ALL
 ```
 
 
