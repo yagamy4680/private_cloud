@@ -31,5 +31,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Initiate the vagrant box by adding user "smith" as sudoer and enable
   # openssh/avahi-daemon services.
   #
-  config.vm.provision "shell", inline: "sudo /vagrant/pylon_init.sh"
+  # config.vm.provision "shell", inline: "sudo /vagrant/pylon_init.sh"
+  config.vm.provision "shell", inline: "wget -qO- https://raw.githubusercontent.com/yagamy4680/private_cloud/master/pylon_init.sh | sudo /bin/bash"
 end
