@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Refer to https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager
+#
 apt-get install -y software-properties-common
 add-apt-repository -y ppa:chris-lea/node.js
 apt-get update -q
