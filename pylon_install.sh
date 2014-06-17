@@ -1,14 +1,4 @@
 #!/bin/sh
-
-curl https://raw.github.com/yagamy4680/private_cloud/master/virtualbox_source_list.txt >> /etc/apt/sources.list
-wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
-apt-get update
-apt-get install -y virtualbox-4.3
-wget http://files.vagrantup.com/packages/a40522f5fabccb9ddabad03d836e120ff5d14093/vagrant_1.3.5_x86_64.deb
-dpkg -i vagrant_1.3.5_x86_64.deb
-vagrant plugin install vagrant-berkshelf
-vagrant plugin install vagrant-omnibus
-
 apt-get install -y build-essential openssl libssl-dev pkg-config
 wget http://nodejs.org/dist/v0.10.22/node-v0.10.22.tar.gz
 tar -xvf node-v0.10.22.tar.gz
