@@ -15,10 +15,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "ffuenf/ubuntu-14.04-server-amd64"
 
+  # Setup the hostname
+  config.vm.hostname = "pcloud"
+
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
   config.vm.network :public_network, :bridge => IF_INTERFACE
+
+  # Enable `vagrant-cachier` to cache APT packages
+  #
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
