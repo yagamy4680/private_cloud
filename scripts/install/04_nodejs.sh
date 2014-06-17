@@ -37,7 +37,7 @@ else
 	PATHES="${PATHES}:/opt/node/bin"
 	sed -i 's/^PATH.*$//g' /etc/environment
 	echo "PATH=\"${PATHES}\"" >> /etc/environment
-
+	export PATH=${PATH}:/opt/node/bin
 	cd ${CURRENT}
 fi
 
