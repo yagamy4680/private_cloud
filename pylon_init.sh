@@ -42,13 +42,13 @@ fi
 # Update APT repositories.
 #
 echo "update apt repositories and necessary utilities"
-apt-get update
-apt-get install -y curl vim
+apt-get update -qq
+apt-get install -y -q curl vim
 
 # Install OpenSSH server
 #
 echo "installing openssh server"
-apt-get install -y openssh-server
+apt-get install -y -q openssh-server
 sed -i 's/^#GSSAPIAuthentication no/GSSAPIAuthentication no/g' /etc/ssh/sshd_config
 sed -i 's/^#GSSAPICleanupCredentials yes/GSSAPICleanupCredentials yes/g' /etc/ssh/sshd_config
 service ssh restart
@@ -56,5 +56,13 @@ service ssh restart
 # Install avahi-daemon for bonjour protocol
 #
 echo "installing avahi-daemon for bonjour protocol"
-apt-get install -y avahi-daemon
+apt-get install -y -q avahi-daemon
 service avahi-daemon restart
+
+# Download entire "private_cloud" repository and then execute further installation scripts.
+# 
+apt-get install -y -q git
+cd /opt
+git clone https://github.com/yagamy4680/private_cloud.git
+cd /opt/private_cloud/scripts
+./install_all.sh
